@@ -9,3 +9,6 @@ admin.site.register(slots_booking_table)
 admin.site.register(parking_spaces)
 # admin.site.register(Temp)
 admin.site.register(Slot_duration_table)
+
+
+

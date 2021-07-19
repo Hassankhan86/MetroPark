@@ -43,12 +43,12 @@ class Customer_details(forms.ModelForm):
 class slots_booking(forms.ModelForm):
     class Meta:
         model = models.slots_booking_table
-        fields = ['slot_name', 'Slot_duration','customer_info','total_price']
+        fields = ['Slot_duration','customer_info','total_price']
 
 
     def __init__(self, *args, **kwargs):
         super(slots_booking, self).__init__(*args, **kwargs)
-        self.fields['slot_name'].widget.attrs['placeholder'] = 'slot_name'
+        # self.fields['slot_name'].widget.attrs['placeholder'] = 'slot_name'
         self.fields['Slot_duration'].widget.attrs['placeholder'] = 'Slot_duration'
 
 

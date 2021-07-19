@@ -42,14 +42,14 @@ class Slot_duration_table(models.Model):
 
 
 class slots_booking_table(models.Model):
-    slot_name = models.TextField(blank=True, max_length='100')
+    # slot_name = models.TextField(blank=True, max_length='100')
     Slot_duration = models.ForeignKey(Slot_duration_table, blank=True,on_delete=models.CASCADE)
     customer_info = models.ForeignKey(customer, blank=True,on_delete = models.CASCADE)
     total_price =  models.TextField(blank=True, max_length='100')
 
 
     def __str__(self):
-        return f"{self.slot_name} +  {self.Slot_duration} + {self.customer_info}"
+        return f" {self.Slot_duration} + {self.customer_info}"
 
 
 class parking_spaces(models.Model):
