@@ -24,6 +24,14 @@ class Customer_details(forms.ModelForm):
         self.fields['vehicle_name'].widget.attrs['placeholder'] = 'e.g. Ford 2005'
         self.fields['vehicle_color'].widget.attrs['placeholder'] = 'White,Blue,Black .....'
 
+        self.fields['customer_name'].widget.attrs['required'] = 'required'
+        self.fields['customer_id'].widget.attrs['required'] = 'required'
+        self.fields['customer_phone'].widget.attrs['required'] = 'required'
+        self.fields['customer_email'].widget.attrs['required'] = 'required'
+        self.fields['vehicle_number'].widget.attrs['required'] = 'required'
+        self.fields['vehicle_name'].widget.attrs['required'] = 'required'
+        self.fields['vehicle_color'].widget.attrs['required'] = 'required'
+
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = ' form-control'
             visible.field.widget.attrs['style'] = 'height: 34px; width: 555px; resize:none'
@@ -45,9 +53,10 @@ class slots_booking(forms.ModelForm):
 
 
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = ' form-control'
+            visible.field.widget.attrs['class'] = ' form-control,'
             visible.field.widget.attrs['style'] = 'height: 34px; width: 555px; resize:none'
             visible.field.widget.attrs['resize'] = 'none'
+
             # visible.field.widget.attrs['max'] = '1'
             # visible.field.widget.attrs['min'] = '0'
 
