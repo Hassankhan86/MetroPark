@@ -106,7 +106,7 @@ def booking(request):
     if request.method == 'POST':
 
     #     print("method is post")
-        form = forms.Customer_details(request.POST,None)
+        form = forms.Customer_details(request.POST,request.FILES)
         form1 = forms.slots_booking(request.POST, None)
         form2 = forms.parking_spaces_form(request.POST, None)
 
