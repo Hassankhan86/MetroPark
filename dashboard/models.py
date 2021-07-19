@@ -49,7 +49,7 @@ class slots_booking_table(models.Model):
 
 
     def __str__(self):
-        return f"{self.slot_name}"
+        return f"{self.slot_name} +  {self.Slot_duration} + {self.customer_info}"
 
 
 class parking_spaces(models.Model):

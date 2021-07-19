@@ -101,7 +101,6 @@ from .models import parking_spaces, slots_booking_table, Temp, Slot_duration_tab
 def booking(request):
     live = parking_spaces.objects.all()
     # parking_space1  = parking_spaces.objects.get(space_name='Link Road')
-    slb = slots_booking_table.objects.all()
 
 
     if request.method == 'POST':
@@ -116,6 +115,7 @@ def booking(request):
         if form.is_valid() and form1.is_valid():
             # instance = form.save(commit=False)
             print("inside form is valid")
+
 
 
             ss = Temp.objects.get()
@@ -207,10 +207,13 @@ def booking(request):
             # ob = parking_spaces(space_name=ok1)
             ob = parking_spaces.objects.get(space_name=ok1)
 
+            toobb =  ob.total_slots
+            print('toobb',toobb)
+
+
+
             rt = ob.slot_rates
-
             Total_Hr =  rt * hours
-
 
             # tsr = slots_booking_table(total_price=Total_Hr)
             ms.total_price = Total_Hr
@@ -221,6 +224,7 @@ def booking(request):
             ms.save()
             ob.slot_booking.add(ms)
             ob.save()
+
 
 
 
@@ -253,7 +257,15 @@ def booking(request):
             # ab = slots_booking_table.customer_info.add(form1)
             # ab.save()
             # form1.user = request.user
-
+            slb = slots_booking_table.objects.count()
+            Remeaning = toobb - slb
+            # ps = parking_spaces.total_slots.co
+            # print(ps)
+            print('Total Objects', Remeaning)
+            ob.total_slots = Remeaning
+            ob.save()
+            # hg =parking_spaces.objects.filter(space_name=ok1)
+            # hg.save()
 
             # parking_space.slot_booking.add(form)
             # abc = slots_booking_table.customer_info.add(form)
