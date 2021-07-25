@@ -39,12 +39,25 @@ class Slot_duration_table(models.Model):
     def __str__(self):
         return f"{self.from_date} + {self.to_date}"
 
+class parking_spaces(models.Model):
+    spcae_pic = models.ImageField(blank=False, null=False, default='default.png')
+    space_name = models.TextField(blank=True, max_length="100")
+    space_address = models.TextField(blank=True, max_length="1000")
+    total_slots = models.IntegerField(blank=True)
+    key_words = models.ManyToManyField(Key_table, blank=True)
+    # slot_booking = models.ManyToManyField(slots_booking_table, blank=True)
+    # slot_monthly_rates = models.IntegerField(blank=True)
+    slot_rates = models.IntegerField(blank=True)
 
+    def __str__(self):
+        return f"{self.space_name}"
 
 class slots_booking_table(models.Model):
     # slot_name = models.TextField(blank=True, max_length='100')
     Slot_duration = models.ForeignKey(Slot_duration_table, blank=True,on_delete=models.CASCADE)
     customer_info = models.ForeignKey(customer, blank=True,on_delete = models.CASCADE)
+    parking_name = models.ForeignKey(parking_spaces,null=True, blank=True,on_delete = models.CASCADE)
+
     total_price =  models.TextField(blank=True, max_length='100')
 
 
@@ -52,15 +65,3 @@ class slots_booking_table(models.Model):
         return f" {self.Slot_duration} + {self.customer_info}"
 
 
-class parking_spaces(models.Model):
-    spcae_pic = models.ImageField(blank=False, null=False, default='default.png')
-    space_name = models.TextField(blank=True, max_length="100")
-    space_address = models.TextField(blank=True, max_length="1000")
-    total_slots = models.IntegerField(blank=True)
-    key_words = models.ManyToManyField(Key_table, blank=True)
-    slot_booking = models.ManyToManyField(slots_booking_table, blank=True)
-    # slot_monthly_rates = models.IntegerField(blank=True)
-    slot_rates = models.IntegerField(blank=True)
-
-    def __str__(self):
-        return f"{self.space_name}"

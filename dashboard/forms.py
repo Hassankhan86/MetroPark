@@ -43,7 +43,7 @@ class Customer_details(forms.ModelForm):
 class slots_booking(forms.ModelForm):
     class Meta:
         model = models.slots_booking_table
-        fields = ['Slot_duration','customer_info','total_price']
+        fields = ['Slot_duration','customer_info','total_price','parking_name']
 
 
     def __init__(self, *args, **kwargs):
@@ -63,7 +63,7 @@ class slots_booking(forms.ModelForm):
 class parking_spaces_form(forms.ModelForm):
     class Meta:
         model = models.parking_spaces
-        fields = ['slot_booking']
+        fields = ['spcae_pic','space_name','space_address','total_slots','key_words','slot_rates']
 
 
 # class slot_duration_table_form(forms.ModelForm):

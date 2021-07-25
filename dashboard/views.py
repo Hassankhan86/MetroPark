@@ -147,16 +147,19 @@ def booking(request):
             dur = Slot_duration_table(to_date=to_date, from_date=from_date)
             dur.save()
 
-            form  = form.save()
-            ms = form1.save(commit=False)
-            ms.customer_info = form
-            ms.Slot_duration = dur
-
-
             ok1 = request.session['location_address1']
             print(ok1)
 
             ob = parking_spaces.objects.get(space_name=ok1)
+
+            form  = form.save()
+            ms = form1.save(commit=False)
+            ms.customer_info = form
+            ms.Slot_duration = dur
+            ms.parking_name = ob
+
+
+
 
             toobb =  ob.total_slots
             print('toobb',toobb)
@@ -175,9 +178,9 @@ def booking(request):
 
             # ob .save()
             ms.save()
-            ob.slot_booking.add(ms)
-            ob.save()
-            print(ob)
+            # ob.slot_booking.add(ms)
+            # ob.save()
+            # print(ob)
 
             Remeaning = toobb - 1
             print('Total Objects', Remeaning)
@@ -200,6 +203,7 @@ def details(request,pk_test):
 
     customers = customer.objects.get(id=pk_test)
     slot_booking = customers.slots_booking_table_set.all()
+    # print(ss)
     
     print(customers)
     print(slot_booking)
