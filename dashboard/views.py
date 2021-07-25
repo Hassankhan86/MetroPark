@@ -10,6 +10,14 @@ from . import forms
 from .forms import Customer_details
 from .models import parking_spaces, slots_booking_table, Slot_duration_table
 
+def contact_us(request):
+    return render(request, 'dashboard/contact_us.html')
+
+def services(request):
+    return render(request, 'dashboard/services.html')
+
+def career(request):
+    return render(request, 'dashboard/career.html')
 
 # @login_required(login_required, name='dispatch')
 # @login_required(login_url='/accounts/login')
