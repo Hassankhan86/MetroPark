@@ -3,7 +3,9 @@
 
 
 {% block content %}
-    <form method="POST" action="{% url 'dashboard:booking' %}" enctype="multipart/form-data">
+    <form id="theForm2" class="form-group " method="POST" action="{% url 'dashboard:booking' %}" enctype="multipart/form-data">
+        {#            <form id="theForm2" class="form-group " action="{% url 'dashboard:resumeform2' %} " method="post" enctype="multipart/form-data">#}
+
         {% csrf_token %}
         <div class="container">
 
@@ -13,11 +15,11 @@
 
                 {% for sp in sp %}
                     <div class="col-6">
-                        <h4 style="text-align: center">Space Parking Picture</h4>
+                        <h4 style="text-align: center">Parking Space  Picture</h4>
                         <img  style="width: 100%; height: 300px" src="{{ sp.spcae_pic.url }}">
                     </div>
                     <div class="col-6">
-                        <h4 style="text-align: center;margin-bottom: 20px">Space Parking  Details</h4>
+                        <h4 style="text-align: center;margin-bottom: 20px">Parking Space  Details</h4>
                         <label style="font-size: 15px;margin-bottom: 10px">Space Parking Name : </label>{{ sp.space_name }}<br>
                         <label style="font-size: 15px;margin-bottom: 10px"> Space Address : </label>{{ sp.space_address }}<br>
                         <label style="font-size: 15px;margin-bottom: 10px">Total Slots : </label>{{ sp.total_slots }}<br>
@@ -95,18 +97,19 @@
 
 
             <div class="row">
-                    <h4 style="text-align: center;">Slot Booking</h4>
+
+                <h4 style="text-align: center;">Slot Booking</h4>
 
                 <div class="col-6">
-{#                    <label>Slot Name :</label>#}
-{##}
+                    {#                    <label>Slot Name :</label>#}
+                    {##}
                     {#                  <input type="text" class="form-control" placeholder="White,Blue,Black ....." name="vehicle_color">#}
-{#                    {{ form1.slot_name }}#}
+                    {#                    {{ form1.slot_name }}#}
                     <br>
 
 
                     {% for sp in sp %}
-                        <label>Total Rates: </label><br> (Per Hour Rate) * (Slot Rate) :
+                        <label>Total Rates: </label><br><b> ( Hours) * (Slot Rate) :</b>
                         ({{ hours }}) x ({{ sp.slot_rates }})  = {% widthratio sp.slot_rates 1 hours %} $
 
                     {% endfor %}
@@ -134,14 +137,14 @@
 
 
                 </div>
-                <div class="col-6">
-{#                     <h4 style="text-align: center;">Slot Booking</h4>#}
+                <div class="col-6"><br>
+                    {#                     <h4 style="text-align: center;">Slot Booking</h4>#}
                     <label>Slot Duration :</label><br>
-<p>From Date :{{ from_date1 }}</p>
+                    <p><b>From Date : </b> {{ from_date1 }}</p>
 
                     {#                  <input type="text" class="form-control" placeholder="White,Blue,Black ....." name="vehicle_color">#}
 
-<p>To Date   : {{ to_date1 }}</p>
+                    <p><b>To Date   : </b> {{ to_date1 }}</p>
 
 
 
@@ -151,11 +154,94 @@
 
             </div>
             <br>
-            <div style="text-align: center;"> <button type="submit" class="btn btn-primary" style="width: 100%">Book</button></div>
+            <div style="text-align: center;"> <button type="submit" class="btn btn-secondary" style="width: 20%">Book With Out Paypal Payment</button></div>
+            {#Paypal#} <br>
+              <div style="text-align: center;">   <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">Paypal Payment</button>
 
-
+              </div>
         </div>
     </form>
+    {#   <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>#}
+    <script src="https://www.paypal.com/sdk/js?client-id=ATdoVzsapMZ3o3PTczgMdoweKfOs27xv1gLRnbwlBcdlMBWGC6fDSRujUdtlNPm6NlEGIZ6Or7kpdIOQ&currency=USD"></script>
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="left: -1%;transform: translate(0,0%)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel" style="margin-left:120px ">PayPal Payment Gateway</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="paypal-button-container"></div>
+                    {#&disable-funding=credit#}
+
+                    <script>
+
+                        {% for sp  in sp %}
+                            var sr =   {{ sp.slot_rates }}
+                            var hr =  {{ hours }}
+                            {#alert(sr)#}
+                            {#alert(hr)#}
+
+                            TotalHR = sr * hr
+                            {#alert(TotalHR)#}
+                        {% endfor %}
+
+                        {#var  a =   '{{ hours }}'#}
+                        {#var v = '{{ sp.slot_rates }}'#}
+                        {#c = a * v#}
+                        {#alert(c)#}
+                        // Render the PayPal button into #paypal-button-container
+
+                        {#alert(total)#}
+                        {##}
+
+
+
+                        paypal.Buttons({
+
+                            style: {
+                                color:  'blue',
+                                shape:  'pill',
+                                label:  'pay',
+                                height: 40,
+                            },
+                            // Set up the transaction
+                            createOrder: function(data, actions) {
+                                return actions.order.create({
+                                    purchase_units: [{
+                                        amount: {
+                                            value: TotalHR
+                                        }
+                                    }]
+                                });
+                            },
+
+                            // Finalize the transaction
+                            onApprove: function(data, actions) {
+                                return actions.order.capture().then(function(details) {
+                                    // Show a success message to the buyer
+                                    alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                                    document.getElementById('theForm2').submit();
+                                });
+                            }
+
+
+                        }).render('#paypal-button-container');
+                    </script>
+                </div>
+
+                {#                        <div class="modal-footer">#}
+                {#                            <input class="  btn btn-primary" type="submit" value="create">#}
+                {#                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>#}
+                {#                        </div>#}
+            </div>
+        </div>
+    </div>
 
 
 

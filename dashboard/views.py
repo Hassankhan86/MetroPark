@@ -8,7 +8,7 @@ from . import forms
 
 # Create your views here.
 from .forms import Customer_details
-from .models import parking_spaces, slots_booking_table, Temp, Slot_duration_table
+from .models import parking_spaces, slots_booking_table, Slot_duration_table
 
 
 # @login_required(login_required, name='dispatch')
@@ -118,50 +118,11 @@ def booking(request):
 
 
 
-            ss = Temp.objects.get()
-            print('ss',ss )
+            # ss = Temp.objects.get()
+            # print('ss',ss )
 
 
             print('----------------------')
-
-            # nms = Temp.objects.values_list('search_name', flat=True)
-            # a = parking_spaces.objects.filter(space_name__in=nms)
-            #
-            #
-            # from_date = Temp.objects.values_list('from_date_tem', flat=True)
-            # to_date = request.POST.get('to_date')
-
-
-
-
-            # format = '%Y-%m-%dT%H:%M'  # The format
-            # from_date_str = datetime.strptime(from_date, format)
-            # print(from_date)
-            # print(to_date)
-            # print(from_date_str)
-
-
-            #
-
-            #
-            # print(to_date)
-
-            # parking_spaces.slot_booking(a)
-            # parking_spaces.save()
-
-            # if a is True:
-            #     print("YEs")
-            #
-            # if a is False:
-            #     print("No")
-            #
-            # print(a[0])
-
-            #
-            # for l in live:
-            #
-            #     a =
-            #     print(a[0])
 
             from_date = request.session['from_date1']
             to_date = request.session['to_date1']
@@ -171,17 +132,6 @@ def booking(request):
             print(to_date)
             print('Total',hours)
 
-
-
-
-
-            #
-            #     name = l.space_name
-            #     print(name)
-            #     if l.space_name == ss:
-            #         print("ok")
-            #     else:
-            #         print("Not Okay")
             print('----------------------')
 
             dur = Slot_duration_table(to_date=to_date, from_date=from_date)
@@ -192,19 +142,10 @@ def booking(request):
             ms.customer_info = form
             ms.Slot_duration = dur
 
-            # parking_spaces.slot_booking.add[1](ms)
-            # ms.save()
 
             ok1 = request.session['location_address1']
             print(ok1)
 
-
-
-            # results = Model.objects.filter(x=5).exclude(a=true)
-
-            # check = parking_spaces.objects.filter(space_name=ok1).exclude(a=ok1)
-            # print(check)
-            # ob = parking_spaces(space_name=ok1)
             ob = parking_spaces.objects.get(space_name=ok1)
 
             toobb =  ob.total_slots
@@ -214,66 +155,28 @@ def booking(request):
 
             rt = ob.slot_rates
             Total_Hr =  rt * hours
-
             # tsr = slots_booking_table(total_price=Total_Hr)
             ms.total_price = Total_Hr
-
             print(Total_Hr)
-            print(ob)
+
+            request.session['Total_Price'] = Total_Hr
+
+
+
             # ob .save()
             ms.save()
             ob.slot_booking.add(ms)
             ob.save()
+            print(ob)
 
-
-
-
-            # form1.save_m2m =
-            # for live in live:
-            #
-            #     parking_spaces.space_name.a = form1
-                    # live.space_name = form1
-
-            # parking_spaces.slot_booking = ms
-
-
-            # ms = live.model.slot_booking
-
-            # my_obj.categories.create(name='val1')
-            # ms2.slot_booking = form1.save()
-
-
-            # slot = form1.save(commit=False)
-            #
-            # cus.id = slot.action_id
-            #
-            # cus.save()
-            # slot.save()
-            # form.user = request.user
-            # form.save()
-            # obj.education.add(edu)
-            # form1.save()
-
-            # ab = slots_booking_table.customer_info.add(form1)
-            # ab.save()
-            # form1.user = request.user
-            slb = slots_booking_table.objects.count()
-            Remeaning = toobb - slb
-            # ps = parking_spaces.total_slots.co
-            # print(ps)
+            Remeaning = toobb - 1
             print('Total Objects', Remeaning)
             ob.total_slots = Remeaning
             ob.save()
-            # hg =parking_spaces.objects.filter(space_name=ok1)
-            # hg.save()
 
-            # parking_space.slot_booking.add(form)
-            # abc = slots_booking_table.customer_info.add(form)
-            # parking_space1.slot_booking.add(abc)
-            # @login_required(login_url='/accounts/login')
-            # return details(request)
+
             return details(request)
-            # return HttpResponse("hjk")
+
 
     form = forms.Customer_details()
     print("inside Else")
@@ -296,9 +199,11 @@ def homepage(request):
         sp = parking_spaces.objects.all()
         ss = slots_booking_table.objects.all()
 
+
+
         slot_dur = Slot_duration_table.objects.filter()
 
-        Temp1 = Temp.objects.all()
+        # Temp1 = Temp.objects.all()
 
 
         # print(Temp1)
@@ -337,9 +242,9 @@ def homepage(request):
         # print(Hrro)
         request.session['hourspass'] = hours
 
-        Temp1.delete()
-        search = Temp(search_name=location)
-        search.save()
+        # Temp1.delete()
+        # search = Temp(search_name=location)
+        # search.save()
 
 
 
@@ -367,8 +272,8 @@ def homepage(request):
 
         sp = parking_spaces.objects.filter(space_name=location)
 
-
-
+        # request.session['Total_Price'] = Total_Hr
+        # Total_Hr = request.session['Total_Price']
 
 
 

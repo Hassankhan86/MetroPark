@@ -1,12 +1,12 @@
 from django.db import models
 
-class Temp(models.Model):
-    search_name = models.TextField(blank=True, max_length="10000")
-    from_date_tem = models.TextField(blank=True, max_length="10000")
-
-
-    def __str__(self):
-        return f"{self.search_name} + {self.from_date_tem} "
+# class Temp(models.Model):
+#     search_name = models.TextField(blank=True, max_length="10000")
+#     from_date_tem = models.TextField(blank=True, max_length="10000")
+#
+#
+#     def __str__(self):
+#         return f"{self.search_name} + {self.from_date_tem} "
 
 # Create your models here.
 class customer(models.Model):
