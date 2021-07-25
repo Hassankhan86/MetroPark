@@ -185,7 +185,7 @@ def booking(request):
             ob.save()
 
 
-            return details(request,pk_test=94)
+            return details(request,pk_test = form.id)
 
 
     form = forms.Customer_details()
