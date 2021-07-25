@@ -8,7 +8,7 @@ from . import forms
 
 # Create your views here.
 from .forms import Customer_details
-from .models import parking_spaces, slots_booking_table, Slot_duration_table
+from .models import parking_spaces, slots_booking_table, Slot_duration_table,customer
 
 def contact_us(request):
     return render(request, 'dashboard/contact_us.html')
@@ -133,7 +133,9 @@ def booking(request):
             print('----------------------')
 
             from_date = request.session['from_date1']
+            from_date = datetime.strptime(from_date, '%Y-%m-%dT%H:%M')
             to_date = request.session['to_date1']
+            to_date = datetime.strptime(to_date, '%Y-%m-%dT%H:%M')
             hours = request.session['hourspass']
 
             print(from_date)
@@ -183,7 +185,7 @@ def booking(request):
             ob.save()
 
 
-            return details(request)
+            return details(request,pk_test=94)
 
 
     form = forms.Customer_details()
@@ -192,9 +194,19 @@ def booking(request):
 
     return render(request, 'dashboard/search_form.html', {'form': form,'form1': form1,'live': live})
 
-@login_required(login_url='/accounts/login')
-def details(request):
-    return render(request, 'dashboard/details.html')
+
+# @login_required(login_url='/accounts/login')
+def details(request,pk_test):
+
+    customers = customer.objects.get(id=pk_test)
+    slot_booking = customers.slots_booking_table_set.all()
+    
+    print(customers)
+    print(slot_booking)
+
+    context = {"customers":customers,"slot_booking":slot_booking}
+
+    return render(request, 'dashboard/details.html',context)
 
 # @login_required(login_url='/accounts/login')
 def homepage(request):
