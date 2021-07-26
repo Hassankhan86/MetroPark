@@ -8,16 +8,20 @@ from . import forms
 
 # Create your views here.
 from .forms import Customer_details
-from .models import parking_spaces, slots_booking_table, Slot_duration_table,customer
+from .models import parking_spaces, slots_booking_table, Slot_duration_table, customer
+
 
 def contact_us(request):
     return render(request, 'dashboard/contact_us.html')
 
+
 def services(request):
     return render(request, 'dashboard/services.html')
 
+
 def career(request):
     return render(request, 'dashboard/career.html')
+
 
 # @login_required(login_required, name='dispatch')
 # @login_required(login_url='/accounts/login')
@@ -110,25 +114,19 @@ def booking(request):
     live = parking_spaces.objects.all()
     # parking_space1  = parking_spaces.objects.get(space_name='Link Road')
 
-
     if request.method == 'POST':
 
-    #     print("method is post")
-        form = forms.Customer_details(request.POST,request.FILES)
+        #     print("method is post")
+        form = forms.Customer_details(request.POST, request.FILES)
         form1 = forms.slots_booking(request.POST, None)
         form2 = forms.parking_spaces_form(request.POST, None)
-
-
 
         if form.is_valid() and form1.is_valid():
             # instance = form.save(commit=False)
             print("inside form is valid")
 
-
-
             # ss = Temp.objects.get()
             # print('ss',ss )
-
 
             print('----------------------')
 
@@ -140,7 +138,7 @@ def booking(request):
 
             print(from_date)
             print(to_date)
-            print('Total',hours)
+            print('Total', hours)
 
             print('----------------------')
 
@@ -152,29 +150,22 @@ def booking(request):
 
             ob = parking_spaces.objects.get(space_name=ok1)
 
-            form  = form.save()
+            form = form.save()
             ms = form1.save(commit=False)
             ms.customer_info = form
             ms.Slot_duration = dur
             ms.parking_name = ob
 
-
-
-
-            toobb =  ob.total_slots
-            print('toobb',toobb)
-
-
+            toobb = ob.total_slots
+            print('toobb', toobb)
 
             rt = ob.slot_rates
-            Total_Hr =  rt * hours
+            Total_Hr = rt * hours
             # tsr = slots_booking_table(total_price=Total_Hr)
             ms.total_price = Total_Hr
             print(Total_Hr)
 
             request.session['Total_Price'] = Total_Hr
-
-
 
             # ob .save()
             ms.save()
@@ -188,56 +179,49 @@ def booking(request):
             ob.save()
 
             # return redirect('/')
-            return details(request,pk_test=form.id)
-
+            # return details(request,pk_test=form.id)
+            return details(request)
 
     form = forms.Customer_details()
     print("inside Else")
 
-
-    return render(request, 'dashboard/search_form.html', {'form': form,'form1': form1,'live': live})
+    return render(request, 'dashboard/search_form.html', {'form': form, 'form1': form1, 'live': live})
 
 
 @login_required(login_url='/accounts/login')
-def details(request,pk_test):
-
-    customers = customer.objects.get(id=pk_test)
-    slot_booking = customers.slots_booking_table_set.all()
+def details(request):
+    # customers = customer.objects.get(user=request.user)
+    # slot_booking = customers.slots_booking_table_set.all()
     # print(ss)
-    
+
+    slot_booking = request.user.customer.slots_booking_table_set.all()
+    # Profile.objects.filter(user=request.user).first()
+    customers = customer.objects.filter(user=request.user).all()
     print(customers)
-    print(slot_booking)
+    # print(slot_booking)
 
-    context = {"customers":customers,"slot_booking":slot_booking}
+    context = {"customers": customers,"slot_booking":slot_booking}
 
-    return render(request, 'dashboard/details.html',context)
+    return render(request, 'dashboard/details.html', context)
+
 
 # @login_required(login_url='/accounts/login')
-def homepage(request,):
-
+def homepage(request, ):
     live = parking_spaces.objects.all()
 
-
     if request.method == 'POST':
-
         sp = parking_spaces.objects.all()
         ss = slots_booking_table.objects.all()
-
-
 
         slot_dur = Slot_duration_table.objects.filter()
 
         # Temp1 = Temp.objects.all()
 
-
         # print(Temp1)
         # duration = request.POST.get('options-outlined')
         # print(duration)
 
-
-
         # Temp.search_name.clear()
-
 
         location = request.POST.get('location_address')
         request.session['location_address1'] = location
@@ -270,8 +254,6 @@ def homepage(request,):
         # search = Temp(search_name=location)
         # search.save()
 
-
-
         # from_date = datetime.strptime(from_date, '%Y-%m-%dT%H:%M')
         # print(from_date)
         # #
@@ -283,42 +265,31 @@ def homepage(request,):
         # from_date2 = request.POST.get('from_date2')
         # print(from_date2)
 
-
-
-
-
         #
         # dur =  Slot_duration_table(from_date=from_date)
         # dur.save()
-
-
-
 
         sp = parking_spaces.objects.filter(space_name=location)
 
         # request.session['Total_Price'] = Total_Hr
         # Total_Hr = request.session['Total_Price']
 
-
-
-
-
-
         form = forms.Customer_details()
         form1 = forms.slots_booking()
         print("inside Else22")
         # request.method = 'GET
         # return location
-        return render(request, 'dashboard/search_form.html', {'form1': form1,'form': form,'sp':sp,'ss':ss,"from_date1":from_date1,"to_date1":to_date1,"hours":hours})
+        return render(request, 'dashboard/search_form.html',
+                      {'form1': form1, 'form': form, 'sp': sp, 'ss': ss, "from_date1": from_date1, "to_date1": to_date1,
+                       "hours": hours})
     return render(request, 'dashboard/homepage.html', {'live': live})
 
 
-def bookingm2m(request,pk_test):
+def bookingm2m(request, pk_test):
     customers = customer.objects.get(id=pk_test)
     slot_booking = customers.slots_booking_table_set.all()
-    form =  forms.slots_booking(request.POST, None)
+    form = forms.slots_booking(request.POST, None)
 
-    context = {"customers":customers,"form":form,"slot_booking":slot_booking}
+    context = {"customers": customers, "form": form, "slot_booking": slot_booking}
 
-
-    return render(request,"dashboard/bookingm2m.html",context)
+    return render(request, "dashboard/bookingm2m.html")

@@ -5,6 +5,8 @@ from .forms import CreateUserForm
 from django.contrib import messages
 from django.contrib.auth import authenticate ,login,logout
 from django.contrib.auth.decorators import login_required
+from dashboard.views import *
+from dashboard.forms import *
 
 def logoutUser(request):
     logout(request)
@@ -18,6 +20,7 @@ def loginpage(request):
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
+
 
             user = authenticate(request,username=username,password=password)
 
