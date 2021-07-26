@@ -213,7 +213,7 @@ def details(request,pk_test):
     return render(request, 'dashboard/details.html',context)
 
 # @login_required(login_url='/accounts/login')
-def homepage(request):
+def homepage(request,):
 
     live = parking_spaces.objects.all()
 
@@ -311,3 +311,14 @@ def homepage(request):
         # return location
         return render(request, 'dashboard/search_form.html', {'form1': form1,'form': form,'sp':sp,'ss':ss,"from_date1":from_date1,"to_date1":to_date1,"hours":hours})
     return render(request, 'dashboard/homepage.html', {'live': live})
+
+
+def bookingm2m(request,pk_test):
+    customers = customer.objects.get(id=pk_test)
+    slot_booking = customers.slots_booking_table_set.all()
+    form =  forms.slots_booking(request.POST, None)
+
+    context = {"customers":customers,"form":form,"slot_booking":slot_booking}
+
+
+    return render(request,"dashboard/bookingm2m.html",context)

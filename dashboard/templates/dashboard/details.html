@@ -15,14 +15,14 @@
             <div class="col-md">
                 <div class="card card-body">
                     <div class="card-header bg-secondary " style="text-align: center">
-                        Customer Information
+                        <b style="color: white">    Customer Information</b>
                     </div>
                     {#                <h5>Customer: </h5>#}
                     {#                <hr>#}
                     <div class="card-body">
                         {#    <h5 class="card-title">Customer Information</h5>#}
-                        <p class="card-text">Customer Name : {{ customers.customer_name }}</p>
-                        <p class="card-text">Customer Id : {{ customers.customer_id }}</p>
+                        <p class="card-text"><b>Customer Name</b> : {{ customers.customer_name }}</p>
+                        <p class="card-text"><b>Customer Id</b> : {{ customers.customer_id }}</p>
 
                         <a href="#" class="btn" style="float: right;background-color: #2D71B3;color: white">Go Update</a>
                     </div>
@@ -35,14 +35,14 @@
             <div class="col-md">
                 <div class="card card-body">
                     <div class="card-header bg-secondary " style="text-align: center">
-                        Contact Information
+                   <b style="color: white" >    Contact Information</b>
                     </div>
                     {#                <h5>Customer: </h5>#}
                     {#                <hr>#}
                     <div class="card-body">
                         {#    <h5 class="card-title">Customer Information</h5>#}
-                        <p class="card-text">Phone No : {{ customers.customer_email }}</p>
-                        <p class="card-text">Email Address : {{ customers.customer_phone }}</p>
+                        <p class="card-text"><b>Phone No</b> : {{ customers.customer_email }}</p>
+                        <p class="card-text"><b>Email Address</b> : {{ customers.customer_phone }}</p>
 {#                        <p class="card-text">Customer Id : {{ customers.customer_phone }}</p>#}
 
 {#                        <a href="#" class="btn btn-primary">Go somewhere</a>#}
@@ -56,15 +56,15 @@
              <div class="col-md">
                 <div class="card card-body">
                     <div class="card-header bg-secondary " style="text-align: center">
-                        Vehicle Information
+                <b style="color: white"       > Vehicle Information </b>
                     </div>
                     {#                <h5>Customer: </h5>#}
                     {#                <hr>#}
                     <div class="card-body">
                         {#    <h5 class="card-title">Customer Information</h5>#}
-                        <p class="card-text">Vehicle Number : {{ customers.vehicle_name }}</p>
-                        <p class="card-text">Vehicle Name : {{ customers.vehicle_name }}</p>
-                        <p class="card-text">Vehicle Color : {{ customers.vehicle_color }}</p>
+                        <p class="card-text"><b>Vehicle Number</b> : {{ customers.vehicle_number }}</p>
+                        <p class="card-text"><b>Vehicle Name</b> : {{ customers.vehicle_name }}</p>
+                        <p class="card-text"><b>Vehicle Color</b> : {{ customers.vehicle_color }}</p>
 {#                        <p class="card-text">Vehicle Documents : {{ customers.vehicle_documents }}</p>#}
 
 {#                        <a href="#" class="btn btn-primary">Go somewhere</a>#}
@@ -114,8 +114,8 @@
                             <tr>
                                 <td>{{ order.customer_info }}</td>
                                  <td>{{ order.parking_name.space_name }}</td>
-                                <td>{{ order.Slot_duration.to_date }}</td>
                                 <td>{{ order.Slot_duration.from_date }}</td>
+                                <td>{{ order.Slot_duration.to_date }}</td>
                                 <td>{{ order.parking_name.slot_rates }}$ Per Hr</td>
                                 <td>{{ order.total_price }}</td>
 
@@ -128,6 +128,9 @@
                     </table>
                 </div>
             </div>
-        </div>
+
+        </div>         <br>               <a href="{% url "dashboard:bookingm2m" customers.id  %}" class="btn" style="float: right;background-color: #2D71B3;color: white">Book Slot</a>
+
     </div>
+
 {% endblock %}

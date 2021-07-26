@@ -17,9 +17,9 @@ class customer(models.Model):
     vehicle_number = models.TextField(blank=True, max_length="50")
     vehicle_name = models.TextField(blank=True,max_length="50")
     vehicle_color = models.TextField(blank=True,max_length="50")
-    vehicle_documents = models.ImageField(blank=False, null=False, default='default.png')
+    # vehicle_documents = models.FileField(blank=False, null=False, default='default.png')
 
-    # vehicle_documents =  models.FileField(upload_to='documents/%Y/%m/%d')
+    vehicle_documents =  models.FileField(upload_to='documents/%Y/%m/%d')
 
 
     def __str__(self):
