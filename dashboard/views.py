@@ -187,8 +187,8 @@ def booking(request):
             ob.total_slots = Remeaning
             ob.save()
 
-
-            return details(request,pk_test = form.id)
+            # return redirect('/')
+            return details(request,pk_test=form.id)
 
 
     form = forms.Customer_details()
@@ -198,7 +198,7 @@ def booking(request):
     return render(request, 'dashboard/search_form.html', {'form': form,'form1': form1,'live': live})
 
 
-# @login_required(login_url='/accounts/login')
+@login_required(login_url='/accounts/login')
 def details(request,pk_test):
 
     customers = customer.objects.get(id=pk_test)
