@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # class Temp(models.Model):
@@ -10,6 +11,8 @@ from django.db import models
 
 # Create your models here.
 class customer(models.Model):
+
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     customer_name = models.TextField(blank=True, max_length="200")
     customer_id = models.TextField(blank=True, max_length="50")
     customer_phone = models.TextField(blank=True,max_length="50")
