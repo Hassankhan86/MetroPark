@@ -115,8 +115,86 @@ def booking(request):
     # parking_space1  = parking_spaces.objects.get(space_name='Link Road')
 
     if request.method == 'POST':
+        cust_name = request.POST.get('cust_name')
+        request.session['cust_name_ar'] = cust_name
 
+        cust_id_no = request.POST.get('cust_id_no')
+        request.session['cust_id_no_ar'] = cust_id_no
+
+        cust_phone = request.POST.get('cust_phone')
+        request.session['cust_phone_ar'] = cust_phone
+
+        cust_mail = request.POST.get('cust_mail')
+        request.session['cust_mail_ar'] = cust_mail
+
+        vehicle_name = request.POST.get('vehicle_name')
+        request.session['vehicle_name_ar'] = vehicle_name
+
+        vehicle_number_plate = request.POST.get('vehicle_number_plate')
+        request.session['vehicle_number_plate_ar'] = vehicle_number_plate
+
+        vehicle_color = request.POST.get('vehicle_color')
+        request.session['vehicle_color_ar'] = vehicle_color
+
+        vehicle_documents = request.FILES.get('vehicle_documents')
+        request.session['vehicle_documents_ar'] = vehicle_documents
+
+        cust_save = customer(customer_name=cust_name, customer_email=cust_mail, customer_id=cust_id_no,
+                             customer_phone=cust_phone,
+                             vehicle_name=vehicle_name, vehicle_number=vehicle_number_plate,
+                             vehicle_color=vehicle_color, vehicle_documents=vehicle_documents)
+        # cust_save.save()
+        print('----------------------')
+
+        from_date = request.session['from_date1']
+        from_date2 = datetime.strptime(from_date, '%Y-%m-%dT%H:%M')
+        # request.session['from_date_ar'] = from_date2
+        print('from_date',from_date2)
+
+        to_date = request.session['to_date1']
+        to_date2 = datetime.strptime(to_date, '%Y-%m-%dT%H:%M')
+        # request.session['to_date_ar'] = to_date2
+        print('to_date',to_date2)
+
+        # request.session['hourspass'] = hours
+        hours = request.session['hourspass']
+        # request.session['hours_ar'] = hours
+        print('Total', hours)
+
+
+
+
+        print('----------------------')
+        dur = Slot_duration_table(to_date=to_date, from_date=to_date2)
+        # dur.save()
+
+        ok1 = request.session['location_address1']
+        print(ok1)
+        ob = parking_spaces.objects.get(space_name=ok1)
+        # request.session['ob_ar'] = ob
+
+        toobb = ob.total_slots
+        print('toobb', toobb)
+        rt = ob.slot_rates
+        Total_Hr = rt * hours
+        request.session['Total_Hr_ar'] = Total_Hr
+        # tsr = slots_booking_table(total_price=Total_Hr)
+        # ms.total_price =
+        print(Total_Hr)
+
+        sb = slots_booking_table()
+        sb.customer_info = cust_save
+        sb.Slot_duration = dur
+        sb.parking_name = ob
+        sb.total_price = Total_Hr
+        # sb.save()
+
+        Remeaning = toobb - 1
+        print('Total Objects', Remeaning)
+        ob.total_slots = Remeaning
+        # ob.save()
         #     print("method is post")
+
         form = forms.Customer_details(request.POST, request.FILES)
         form1 = forms.slots_booking(request.POST, None)
         form2 = forms.parking_spaces_form(request.POST, None)
@@ -130,62 +208,59 @@ def booking(request):
 
             print('----------------------')
 
-            from_date = request.session['from_date1']
-            from_date = datetime.strptime(from_date, '%Y-%m-%dT%H:%M')
-            to_date = request.session['to_date1']
-            to_date = datetime.strptime(to_date, '%Y-%m-%dT%H:%M')
-            hours = request.session['hourspass']
+            # from_date = request.session['from_date1']
+            # from_date = datetime.strptime(from_date, '%Y-%m-%dT%H:%M')
+            # to_date = request.session['to_date1']
+            # to_date = datetime.strptime(to_date, '%Y-%m-%dT%H:%M')
+            # hours = request.session['hourspass']
+            #
+            # print(from_date)
+            # print(to_date)
+            # print('Total', hours)
 
-            print(from_date)
-            print(to_date)
-            print('Total', hours)
+            # print('----------------------')
 
-            print('----------------------')
+            # dur = Slot_duration_table(to_date=to_date, from_date=from_date)
+            # dur.save()
+            #
+            # ok1 = request.session['location_address1']
+            # print(ok1)
 
-            dur = Slot_duration_table(to_date=to_date, from_date=from_date)
-            dur.save()
+            # ob = parking_spaces.objects.get(space_name=ok1)
 
-            ok1 = request.session['location_address1']
-            print(ok1)
+            # form = form.save()
+            # ms = form1.save(commit=False)
+            # ms.customer_info = form
+            # ms.Slot_duration = dur
+            # ms.parking_name = ob
 
-            ob = parking_spaces.objects.get(space_name=ok1)
-
-            form = form.save()
-            ms = form1.save(commit=False)
-            ms.customer_info = form
-            ms.Slot_duration = dur
-            ms.parking_name = ob
-
-            toobb = ob.total_slots
-            print('toobb', toobb)
-
-            rt = ob.slot_rates
-            Total_Hr = rt * hours
-            # tsr = slots_booking_table(total_price=Total_Hr)
-            ms.total_price = Total_Hr
-            print(Total_Hr)
-
-            request.session['Total_Price'] = Total_Hr
-
-            # ob .save()
-            ms.save()
+            # toobb = ob.total_slots
+            # print('toobb', toobb)
+            #
+            # rt = ob.slot_rates
+            # Total_Hr = rt * hours
+            # # tsr = slots_booking_table(total_price=Total_Hr)
+            # ms.total_price = Total_Hr
+            # print(Total_Hr)
+            #
+            # request.session['Total_Price'] = Total_Hr
+            #
+            # # ob .save()
+            # ms.save()
             # ob.slot_booking.add(ms)
             # ob.save()
             # print(ob)
 
-            Remeaning = toobb - 1
-            print('Total Objects', Remeaning)
-            ob.total_slots = Remeaning
-            ob.save()
 
-            # return redirect('/')
+
+        # return redirect('/')
             # return details(request,pk_test=form.id)
-            return details(request)
+        return details(request)
 
     form = forms.Customer_details()
     print("inside Else")
 
-    return render(request, 'dashboard/search_form.html', {'form': form, 'form1': form1, 'live': live})
+    return render(request, 'dashboard/search_form.html', {'form': form, 'live': live})
 
 
 @login_required(login_url='/accounts/login')
@@ -200,7 +275,7 @@ def details(request):
     print(customers)
     # print(slot_booking)
 
-    context = {"customers": customers,"slot_booking":slot_booking}
+    context = {"customers": customers, "slot_booking": slot_booking}
 
     return render(request, 'dashboard/details.html', context)
 
@@ -226,6 +301,9 @@ def homepage(request, ):
         location = request.POST.get('location_address')
         request.session['location_address1'] = location
         print(location)
+
+        # from_date = request.session['from_date1']
+        # from_date2 = datetime.strptime(from_date, '%Y-%m-%dT%H:%M')
 
         from_date = request.POST.get('from_date')
         to_date = request.POST.get('to_date')
